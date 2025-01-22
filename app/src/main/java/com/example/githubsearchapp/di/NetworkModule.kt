@@ -2,6 +2,8 @@ package com.example.githubsearchapp.di
 
 import com.example.githubsearchapp.common.Constants.BASE_URL
 import com.example.githubsearchapp.data.ApiService
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -17,7 +19,13 @@ fun provideHttpClient(): OkHttpClient {
         .build()
 }
 
-fun provideConverterFactory(): MoshiConverterFactory = MoshiConverterFactory.create()
+fun provideConverterFactory(): MoshiConverterFactory {
+    val moshi = Moshi.Builder()
+        .add(KotlinJsonAdapterFactory())
+        .build()
+
+    return MoshiConverterFactory.create(moshi)
+}
 
 fun provideRetrofit(
     okHttpClient: OkHttpClient,

@@ -1,8 +1,9 @@
 package com.example.githubsearchapp
 
 import android.app.Application
-import com.example.githubsearchapp.di.appModule
+import com.example.githubsearchapp.di.repositoryModule
 import com.example.githubsearchapp.di.networkModule
+import com.example.githubsearchapp.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.GlobalContext.startKoin
@@ -14,7 +15,7 @@ class MainApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(this@MainApplication)
-            modules(appModule, networkModule)
+            modules(repositoryModule, networkModule, viewModelModule)
         }
     }
 }

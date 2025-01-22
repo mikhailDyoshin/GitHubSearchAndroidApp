@@ -1,6 +1,7 @@
 package com.example.githubsearchapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -9,10 +10,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.githubsearchapp.common.Resource
+import com.example.githubsearchapp.data.SearchRepositoryImpl
+import com.example.githubsearchapp.domain.SearchRepository
+import com.example.githubsearchapp.presentation.searchScreen.SearchScreen
 import com.example.githubsearchapp.ui.theme.GitHubSearchAppTheme
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.KoinAndroidContext
+import org.koin.compose.koinInject
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,10 +31,7 @@ class MainActivity : ComponentActivity() {
             GitHubSearchAppTheme {
                 KoinAndroidContext {
                     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                        Greeting(
-                            name = "Android",
-                            modifier = Modifier.padding(innerPadding)
-                        )
+                        SearchScreen(modifier = Modifier.padding(innerPadding))
                     }
                 }
             }
@@ -34,7 +40,10 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
+fun Greeting(
+    name: String,
+    modifier: Modifier = Modifier
+) {
     Text(
         text = "Hello $name!",
         modifier = modifier
