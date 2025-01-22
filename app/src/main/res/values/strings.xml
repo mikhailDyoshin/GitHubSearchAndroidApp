@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">GitHubSearchApp</string>
+    <string name="select_browser_window_title">Choose a browser</string>
+    <string name="activity_not_found_toast_message">Can not open the URL</string>
+    <string name="invalid_url_message">Invalid URL</string>
 </resources>
