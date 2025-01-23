@@ -19,7 +19,11 @@ import com.example.githubsearchapp.presentation.searchScreen.state.SearchScreenL
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun SearchScreen(navigateToRepositoryContent: (RepositoryScreenNavArg) -> Unit, viewModel: SearchScreenViewModel = koinViewModel(), modifier: Modifier) {
+fun SearchScreen(
+    navigateToRepositoryContent: (RepositoryScreenNavArg) -> Unit,
+    viewModel: SearchScreenViewModel = koinViewModel(),
+    modifier: Modifier
+) {
 
     val lifecycle = LocalLifecycleOwner.current.lifecycle
 
@@ -32,9 +36,11 @@ fun SearchScreen(navigateToRepositoryContent: (RepositoryScreenNavArg) -> Unit, 
         lifecycle = lifecycle
     ).value
 
-    Column(modifier = modifier
-        .fillMaxSize()
-        .padding(start = 10.dp, top = 5.dp, end = 10.dp)) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(start = 10.dp, top = 5.dp, end = 10.dp)
+    ) {
         SearchField(
             text = viewModel.searchInputState.value,
             status = state.status,

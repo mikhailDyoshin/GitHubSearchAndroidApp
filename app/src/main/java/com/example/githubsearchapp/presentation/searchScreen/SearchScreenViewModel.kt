@@ -9,10 +9,13 @@ import com.example.githubsearchapp.common.SearchResult
 import com.example.githubsearchapp.data.SearchRepositoryImpl
 import com.example.githubsearchapp.presentation.searchScreen.state.SearchListItemState
 import com.example.githubsearchapp.presentation.searchScreen.state.SearchScreenListState
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flattenConcat
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -22,29 +25,42 @@ class SearchScreenViewModel(private val repository: SearchRepositoryImpl) : View
     private val _searchInputState = mutableStateOf("")
     val searchInputState: State<String> = _searchInputState
 
-    private val submittedSearchInput: MutableStateFlow<String?> = MutableStateFlow(null)
+    private val _submittedSearchInput: MutableSharedFlow<String?> = MutableSharedFlow(replay = 1)
 
-    val state = submittedSearchInput.flatMapLatest { input ->
-        val flow = if (input != null) {
-            repository.getUsersAndRepositories(input)
-        } else {
-            emptyFlow()
-        }
-        flow.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Resource.success(emptyList())).map { resource ->
-            mapToState(resource)
-        }
-    }
-
-
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val state = _submittedSearchInput.map { input ->
+        getStateFlow(input)
+    }.flattenConcat().stateIn(
+        viewModelScope, SharingStarted.WhileSubscribed(), SearchScreenListState(
+            list = emptyList(),
+            status = Resource.Status.SUCCESS,
+            message = ""
+        )
+    )
 
     fun search() {
         viewModelScope.launch {
-            submittedSearchInput.emit(_searchInputState.value)
+            _submittedSearchInput.emit(_searchInputState.value)
+//            _submittedSearchInput.value = _searchInputState.value
         }
     }
 
     fun updateSearchInput(searchInput: String) {
         _searchInputState.value = searchInput
+    }
+
+    private fun getStateFlow(searchInput: String?): Flow<SearchScreenListState> {
+        val flow = if (searchInput != null) {
+            repository.getUsersAndRepositories(searchInput)
+        } else {
+            emptyFlow()
+        }
+
+        val mappedFlow = flow.map { resource ->
+            mapToState(resource)
+        }
+
+        return mappedFlow
     }
 
     private fun mapToSuccessState(resource: Resource<List<Any>>): SearchScreenListState {
@@ -57,32 +73,32 @@ class SearchScreenViewModel(private val repository: SearchRepositoryImpl) : View
 
         return SearchScreenListState(list = resource.data.map { item ->
 
-                when (item) {
-                    is SearchResult.Repository -> {
-                        SearchListItemState.RepositoryState(
-                            name = item.name ?: "No name",
-                            description = item.description ?: "No description",
-                            numberOfForks = item.numberOfForks ?: 0,
-                            owner = item.owner?.login
-                        )
-                    }
-
-                    is SearchResult.User -> {
-                        SearchListItemState.UserState(
-                            name = item.login ?: "No name",
-                            avatarURL = item.avatarURL ?: "",
-                            score = item.score ?: 0f,
-                            htmlURL = item.htmlURL
-                        )
-                    }
-
-                    else -> {
-                        null
-                    }
+            when (item) {
+                is SearchResult.Repository -> {
+                    SearchListItemState.RepositoryState(
+                        name = item.name ?: "No name",
+                        description = item.description ?: "No description",
+                        numberOfForks = item.numberOfForks ?: 0,
+                        owner = item.owner?.login
+                    )
                 }
 
+                is SearchResult.User -> {
+                    SearchListItemState.UserState(
+                        name = item.login ?: "No name",
+                        avatarURL = item.avatarURL ?: "",
+                        score = item.score ?: 0f,
+                        htmlURL = item.htmlURL
+                    )
+                }
 
-            }, status = Resource.Status.SUCCESS)
+                else -> {
+                    null
+                }
+            }
+
+
+        }, status = Resource.Status.SUCCESS)
 
     }
 
