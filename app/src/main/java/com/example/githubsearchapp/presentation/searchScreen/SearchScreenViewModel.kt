@@ -12,7 +12,6 @@ import com.example.githubsearchapp.presentation.searchScreen.state.SearchScreenL
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flattenConcat
@@ -41,7 +40,6 @@ class SearchScreenViewModel(private val repository: SearchRepositoryImpl) : View
     fun search() {
         viewModelScope.launch {
             _submittedSearchInput.emit(_searchInputState.value)
-//            _submittedSearchInput.value = _searchInputState.value
         }
     }
 

@@ -11,8 +11,10 @@ import com.example.githubsearchapp.domain.models.RepositoryContent
 import com.example.githubsearchapp.domain.models.RepositoryContentRequest
 import com.example.githubsearchapp.domain.models.RepositoryContentType
 import com.example.githubsearchapp.common.SearchResult
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import java.io.IOException
 
 class SearchRepositoryImpl(private val api: ApiService) : SearchRepository {
@@ -22,7 +24,6 @@ class SearchRepositoryImpl(private val api: ApiService) : SearchRepository {
 
             val usersResponse = api.getUsers(searchInput = searchInput)
             val repositoriesResponse = api.getRepositories(name = searchInput)
-
 
             if (usersResponse.isSuccessful && repositoriesResponse.isSuccessful) {
 
@@ -45,8 +46,8 @@ class SearchRepositoryImpl(private val api: ApiService) : SearchRepository {
                     emit(Resource.success(data = data))
                 }
             } else {
-                mapHttpErrorCodeToResourceError(usersResponse.code())
-                mapHttpErrorCodeToResourceError(repositoriesResponse.code())
+                emit(Resource.error(error = mapHttpErrorCodeToResourceError(usersResponse.code())))
+                emit(Resource.error(error = mapHttpErrorCodeToResourceError(repositoriesResponse.code())))
             }
         } catch (e: IOException) {
             emit(Resource.error(error = Resource.Error.ERROR_NO_INTERNET_CONNECTION))
@@ -54,7 +55,7 @@ class SearchRepositoryImpl(private val api: ApiService) : SearchRepository {
             emit(Resource.error(error = Resource.Error.ERROR_UNDEFINED))
             handleNetworkError(e)
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun getRepositoryContents(requestData: RepositoryContentRequest): Flow<Resource<List<RepositoryContent>>> =
         flow {
@@ -78,7 +79,7 @@ class SearchRepositoryImpl(private val api: ApiService) : SearchRepository {
                         emit(Resource.success(data = sortedRepositoryContents))
                     }
                 } else {
-                    mapHttpErrorCodeToResourceError(response.code())
+                    emit(Resource.error(error = mapHttpErrorCodeToResourceError(response.code())))
                 }
 
             } catch (e: IOException) {
@@ -87,7 +88,7 @@ class SearchRepositoryImpl(private val api: ApiService) : SearchRepository {
                 handleNetworkError(e)
             }
 
-        }
+        }.flowOn(Dispatchers.IO)
 
     private fun userModelToUser(userModel: UserModel): SearchResult.User {
         return SearchResult.User(
