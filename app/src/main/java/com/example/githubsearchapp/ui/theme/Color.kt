@@ -11,3 +11,21 @@ val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
 val ScoreColor = Color(0xFFFD8201)
+
+val SearchBarBackgroundColor = Color(0xFFCCCBCB)
+
+val SearchButtonEnabledColor = Color(0xFF000000)
+
+val SearchButtonDisabledColor = Color(0xFF8B8B8B)
+
+val ErrorScreenBackgroundColor = Color(0xFFBDBDBD)
+
+val ErrorScreenButtonBackgroundColor = Color(0xFF8B8B8B)
+
+val ErrorScreenButtonTextColor = Color(0xFF000000)
+
+val DirIconColor = Color(0xFFD16B00)
+
+val FileIconColor = Color(0xFF797979)
+
+val RepositoryPathBarBackgroundColor = Color(0xFF9C9C9C)
