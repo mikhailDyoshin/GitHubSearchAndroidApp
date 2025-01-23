@@ -7,7 +7,7 @@ import android.net.Uri
 import android.widget.Toast
 import com.example.githubsearchapp.R
 
-fun openUserProfileInBrowser(context: Context, htmlURL: String?) {
+fun openInBrowser(context: Context, htmlURL: String?) {
 
     if (htmlURL.isNullOrEmpty()) {
         Toast.makeText(

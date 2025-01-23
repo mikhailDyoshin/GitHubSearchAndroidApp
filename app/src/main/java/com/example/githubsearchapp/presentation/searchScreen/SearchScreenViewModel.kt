@@ -28,7 +28,7 @@ class SearchScreenViewModel(private val repository: SearchRepositoryImpl) : View
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val state = _submittedSearchInput.map { input ->
-        getStateFlow(input)
+        getMappedFlow(input)
     }.flattenConcat().stateIn(
         viewModelScope, SharingStarted.WhileSubscribed(), SearchScreenListState(
             list = emptyList(),
@@ -47,7 +47,7 @@ class SearchScreenViewModel(private val repository: SearchRepositoryImpl) : View
         _searchInputState.value = searchInput
     }
 
-    private fun getStateFlow(searchInput: String?): Flow<SearchScreenListState> {
+    private fun getMappedFlow(searchInput: String?): Flow<SearchScreenListState> {
         val flow = if (searchInput != null) {
             repository.getUsersAndRepositories(searchInput)
         } else {

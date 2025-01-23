@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.githubsearchapp.R
-import com.example.githubsearchapp.common.utils.openUserProfileInBrowser
+import com.example.githubsearchapp.common.utils.openInBrowser
 import com.example.githubsearchapp.presentation.searchScreen.state.SearchListItemState
 import com.example.githubsearchapp.ui.theme.ScoreColor
 
@@ -46,7 +46,7 @@ fun UserItem(userState: SearchListItemState.UserState) {
                     .padding(horizontal = 5.dp)
                     .fillMaxWidth()
                     .clickable {
-                        openUserProfileInBrowser(context = context, htmlURL = userState.htmlURL)
+                        openInBrowser(context = context, htmlURL = userState.htmlURL)
                     },
                 verticalAlignment = Alignment.CenterVertically,
             ) {
