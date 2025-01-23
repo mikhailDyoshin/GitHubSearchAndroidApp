@@ -43,7 +43,9 @@ class SearchRepositoryImpl(private val api: ApiService) : SearchRepository {
 
                     val data = usersData + repositoriesData
 
-                    emit(Resource.success(data = data))
+                    val sortedData = sortUsersAndRepositories(data)
+
+                    emit(Resource.success(data = sortedData))
                 }
             } else {
                 emit(Resource.error(error = mapHttpErrorCodeToResourceError(usersResponse.code())))
@@ -132,5 +134,15 @@ class SearchRepositoryImpl(private val api: ApiService) : SearchRepository {
     private fun sortRepositoryContents(repositoryContent: List<RepositoryContent?>): List<RepositoryContent> {
         return repositoryContent.filterNotNull()
             .sortedWith(compareBy { it.type == RepositoryContentType.FILE })
+    }
+
+    private fun sortUsersAndRepositories(list: List<Any>): List<Any> {
+        return list.sortedBy { item ->
+            when (item) {
+                is SearchResult.User -> item.login ?: ""
+                is SearchResult.Repository -> item.name ?: ""
+                else -> ""
+            }
+        }
     }
 }
