@@ -12,13 +12,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.githubsearchapp.common.Resource
+import com.example.githubsearchapp.presentation.navigation.RepositoryScreenNavArg
 import com.example.githubsearchapp.presentation.searchScreen.components.SearchField
 import com.example.githubsearchapp.presentation.searchScreen.components.SearchScreenList
 import com.example.githubsearchapp.presentation.searchScreen.state.SearchScreenListState
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun SearchScreen(viewModel: SearchScreenViewModel = koinViewModel(), modifier: Modifier) {
+fun SearchScreen(navigateToRepositoryContent: (RepositoryScreenNavArg) -> Unit, viewModel: SearchScreenViewModel = koinViewModel(), modifier: Modifier) {
 
     val lifecycle = LocalLifecycleOwner.current.lifecycle
 
@@ -41,7 +42,8 @@ fun SearchScreen(viewModel: SearchScreenViewModel = koinViewModel(), modifier: M
             search = { viewModel.search() })
         SearchScreenList(
             state = state,
-            onRetry = { viewModel.search() }
+            onRetry = { viewModel.search() },
+            navigateToRepositoryContent = { navigateToRepositoryContent(it) },
         )
     }
 

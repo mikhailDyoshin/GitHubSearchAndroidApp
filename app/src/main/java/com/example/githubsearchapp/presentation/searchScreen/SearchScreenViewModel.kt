@@ -30,7 +30,7 @@ class SearchScreenViewModel(private val repository: SearchRepositoryImpl) : View
         } else {
             emptyFlow()
         }
-        flow.stateIn(viewModelScope, SharingStarted.Eagerly, Resource.success(emptyList())).map { resource ->
+        flow.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), Resource.success(emptyList())).map { resource ->
             mapToState(resource)
         }
     }

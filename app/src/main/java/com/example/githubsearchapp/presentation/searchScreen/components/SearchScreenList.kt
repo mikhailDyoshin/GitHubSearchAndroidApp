@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.githubsearchapp.common.Resource
 import com.example.githubsearchapp.presentation.common.ErrorScreen
 import com.example.githubsearchapp.presentation.common.LoadingIndicator
+import com.example.githubsearchapp.presentation.navigation.RepositoryScreenNavArg
 import com.example.githubsearchapp.presentation.searchScreen.state.SearchListItemState
 import com.example.githubsearchapp.presentation.searchScreen.state.SearchScreenListState
 
@@ -22,6 +23,7 @@ import com.example.githubsearchapp.presentation.searchScreen.state.SearchScreenL
 fun SearchScreenList(
     state: SearchScreenListState,
     onRetry: () -> Unit,
+    navigateToRepositoryContent: (RepositoryScreenNavArg) -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -34,7 +36,9 @@ fun SearchScreenList(
                     items(state.list) { itemState ->
                         when (itemState) {
                             is SearchListItemState.RepositoryState -> RepositoryItem(
-                                state = itemState)
+                                state = itemState,
+                                navigateToRepositoryContent = { navigateToRepositoryContent(it) }
+                            )
 
                             is SearchListItemState.UserState -> UserItem(itemState)
                             null -> {
@@ -65,7 +69,8 @@ fun SearchScreenListLoadingPreview() {
             list = emptyList(),
             status = Resource.Status.LOADING
         ),
-        onRetry = {}
+        onRetry = {},
+        navigateToRepositoryContent = {}
     )
 }
 
@@ -78,7 +83,8 @@ fun SearchScreenListErrorPreview() {
             status = Resource.Status.ERROR,
             message = "No Internet"
         ),
-        onRetry = {}
+        onRetry = {},
+        navigateToRepositoryContent = {}
     )
 }
 
@@ -116,7 +122,8 @@ fun SearchScreenLisSuccessPreview() {
                 ),
                 status = Resource.Status.SUCCESS
             ),
-            onRetry = {}
+            onRetry = {},
+            navigateToRepositoryContent = {}
         )
     }
 

@@ -18,11 +18,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.githubsearchapp.presentation.navigation.RepositoryScreenNavArg
 import com.example.githubsearchapp.presentation.searchScreen.state.SearchListItemState
 
 @Composable
 fun RepositoryItem(
     state: SearchListItemState.RepositoryState,
+    navigateToRepositoryContent: (RepositoryScreenNavArg) -> Unit,
 ) {
 
     val cornerSize = 5.dp
@@ -33,7 +35,12 @@ fun RepositoryItem(
                 .shadow(4.dp, shape = RoundedCornerShape(cornerSize), clip = true)
                 .clickable {
                     if (state.owner != null) {
-
+                        navigateToRepositoryContent(
+                            RepositoryScreenNavArg(
+                                owner = state.owner,
+                                repository = state.name,
+                            )
+                        )
                     }
                 }
         ) {
@@ -90,7 +97,8 @@ fun RepositoryItemPreview() {
                 description = "Repository to study Rust programming language",
                 numberOfForks = 105689,
                 owner = "John"
-            )
+            ),
+            navigateToRepositoryContent = {}
         )
     }
 }
