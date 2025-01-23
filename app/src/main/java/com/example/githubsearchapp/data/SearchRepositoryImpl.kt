@@ -10,7 +10,7 @@ import com.example.githubsearchapp.domain.SearchRepository
 import com.example.githubsearchapp.domain.models.RepositoryContent
 import com.example.githubsearchapp.domain.models.RepositoryContentRequest
 import com.example.githubsearchapp.domain.models.RepositoryContentType
-import com.example.githubsearchapp.domain.models.SearchResult
+import com.example.githubsearchapp.common.SearchResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.IOException

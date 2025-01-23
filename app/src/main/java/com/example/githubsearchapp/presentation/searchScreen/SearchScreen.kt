@@ -1,51 +1,71 @@
 package com.example.githubsearchapp.presentation.searchScreen
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.githubsearchapp.common.Resource
+import com.example.githubsearchapp.presentation.searchScreen.components.SearchField
+import com.example.githubsearchapp.presentation.searchScreen.components.SearchScreenList
+import com.example.githubsearchapp.presentation.searchScreen.state.SearchScreenListState
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SearchScreen(viewModel: SearchScreenViewModel = koinViewModel(), modifier: Modifier) {
 
-    val state = viewModel.state.collectAsState().value
+    val lifecycle = LocalLifecycleOwner.current.lifecycle
 
-    ResourceStateHolder(
-        state = state,
-        onLoading = { LoadingStateHolder() },
-        onSuccess = { SuccessStateHolder(it) },
-        onError = { ErrorStateHolder(it) },
-        modifier = modifier
-    )
+    val state = viewModel.state.collectAsStateWithLifecycle(
+        initialValue = SearchScreenListState(
+            list = emptyList(),
+            status = Resource.Status.SUCCESS,
+            message = ""
+        ),
+        lifecycle = lifecycle
+    ).value
 
-    readAndLogResourceStatus(
-        state = state,
-        onSuccess = { data ->
-            Log.d(
-                "ScreenResult",
-                "Success: data-size -> ${data?.size}"
-            )
-        },
-        onError = { error ->
-            Log.d(
-                "ScreenResult",
-                "Error: ${error?.message}"
-            )
-        },
-        onLoading = {
-            Log.d(
-                "ScreenResult",
-                "Loading..."
-            )
-        },
-    )
+    Column(modifier = modifier
+        .fillMaxSize()
+        .padding(start = 10.dp, top = 5.dp, end = 10.dp)) {
+        SearchField(
+            text = viewModel.searchInputState.value,
+            status = state.status,
+            updateSearchInput = { viewModel.updateSearchInput(it) },
+            search = { viewModel.search() })
+        SearchScreenList(
+            state = state,
+            onRetry = { viewModel.search() }
+        )
+    }
+
+//    readAndLogResourceStatus(
+//        state = state,
+//        onSuccess = { data ->
+//            Log.d(
+//                "ScreenResult",
+//                "Success: data-size -> ${data?.size}"
+//            )
+//        },
+//        onError = { error ->
+//            Log.d(
+//                "ScreenResult",
+//                "Error: ${error?.message}"
+//            )
+//        },
+//        onLoading = {
+//            Log.d(
+//                "ScreenResult",
+//                "Loading..."
+//            )
+//        },
+//    )
 }
 
 @Composable

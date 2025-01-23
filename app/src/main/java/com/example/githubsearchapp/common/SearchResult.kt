@@ -1,4 +1,4 @@
-package com.example.githubsearchapp.domain.models
+package com.example.githubsearchapp.common
 
 sealed class SearchResult {
     data class Repository(
