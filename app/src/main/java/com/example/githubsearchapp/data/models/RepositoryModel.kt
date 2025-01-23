@@ -7,5 +7,13 @@ data class RepositoryModel(
     val description: String?,
     @Json(name = "forks_count")
     val numberOfForks: Int?,
-    val owner: UserModel?
+    val owner: UserModel?,
+    val watchers: Int?,
+    val forks: Int?,
+    @Json(name = "stargazers_count")
+    val start: Int?,
+    @Json(name = "created_at")
+    val created: String?,
+    @Json(name = "updated_at")
+    val updated: String?
 )
