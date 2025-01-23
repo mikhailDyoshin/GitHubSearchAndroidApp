@@ -11,7 +11,6 @@ sealed class SearchResult {
     data class User(
         val login: String?,
         val avatarURL: String?,
-        val score: Float?,
         val htmlURL: String?
     )
 }

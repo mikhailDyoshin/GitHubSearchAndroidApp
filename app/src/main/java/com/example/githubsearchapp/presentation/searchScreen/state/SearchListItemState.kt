@@ -4,7 +4,6 @@ sealed class SearchListItemState {
     data class UserState(
         val name: String,
         val avatarURL: String,
-        val score: Float,
         val htmlURL: String?
     ) : SearchListItemState()
 

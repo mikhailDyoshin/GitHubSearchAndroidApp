@@ -96,7 +96,6 @@ class SearchRepositoryImpl(private val api: ApiService) : SearchRepository {
         return SearchResult.User(
             login = userModel.login,
             avatarURL = userModel.avatarUrl,
-            score = userModel.score,
             htmlURL = userModel.htmlURL
         )
     }

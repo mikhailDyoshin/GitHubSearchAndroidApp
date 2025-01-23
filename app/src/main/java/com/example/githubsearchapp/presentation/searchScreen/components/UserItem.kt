@@ -26,7 +26,6 @@ import coil.compose.AsyncImage
 import com.example.githubsearchapp.R
 import com.example.githubsearchapp.common.utils.openInBrowser
 import com.example.githubsearchapp.presentation.searchScreen.state.SearchListItemState
-import com.example.githubsearchapp.ui.theme.ScoreColor
 
 @Composable
 fun UserItem(userState: SearchListItemState.UserState) {
@@ -53,7 +52,7 @@ fun UserItem(userState: SearchListItemState.UserState) {
                 Column(
                     modifier = Modifier
                         .padding(vertical = 10.dp)
-                        .weight(1f),
+                        .weight(0.5f),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     AsyncImage(
@@ -64,8 +63,6 @@ fun UserItem(userState: SearchListItemState.UserState) {
                                 color = Color.Transparent,
                                 shape = RoundedCornerShape(10.dp)
                             ).height(70.dp)
-//                            .fillMaxWidth()
-//                            .fillMaxHeight()
                             .clip(RoundedCornerShape(8.dp)),
                         placeholder = painterResource(id = R.drawable.user_icon)
 
@@ -78,15 +75,6 @@ fun UserItem(userState: SearchListItemState.UserState) {
                     fontSize = 20.sp,
                     modifier = Modifier.weight(1f),
                     textAlign = TextAlign.Center,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Text(
-                    text = userState.score.toString(),
-                    fontSize = 20.sp,
-                    maxLines = 1,
-                    modifier = Modifier.weight(1f),
-                    textAlign = TextAlign.Center,
-                    color = ScoreColor,
                     overflow = TextOverflow.Ellipsis
                 )
             }
@@ -103,7 +91,6 @@ fun UserItemPreview() {
             userState = SearchListItemState.UserState(
                 name = "John Malkovich",
                 avatarURL = "https://avatars.githubusercontent.com/u/65956?v=4",
-                score = 1.0f,
                 htmlURL = ""
             )
         )

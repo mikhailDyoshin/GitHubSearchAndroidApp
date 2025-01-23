@@ -85,7 +85,6 @@ class SearchScreenViewModel(private val repository: SearchRepositoryImpl) : View
                     SearchListItemState.UserState(
                         name = item.login ?: "No name",
                         avatarURL = item.avatarURL ?: "",
-                        score = item.score ?: 0f,
                         htmlURL = item.htmlURL
                     )
                 }

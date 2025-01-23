@@ -98,7 +98,6 @@ fun SearchScreenLisSuccessPreview() {
                     SearchListItemState.UserState(
                         name = "Jack",
                         avatarURL = "",
-                        score = 145f,
                         htmlURL = ""
                     ),
                     SearchListItemState.RepositoryState(
@@ -110,13 +109,11 @@ fun SearchScreenLisSuccessPreview() {
                     SearchListItemState.UserState(
                         name = "Duck",
                         avatarURL = "",
-                        score = 1f,
                         htmlURL = ""
                     ),
                     SearchListItemState.UserState(
                         name = "Bob",
                         avatarURL = "",
-                        score = 2f,
                         htmlURL = ""
                     ),
                 ),
