@@ -13,9 +13,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.githubsearchapp.common.Resource
 import com.example.githubsearchapp.data.SearchRepositoryImpl
 import com.example.githubsearchapp.domain.SearchRepository
+import com.example.githubsearchapp.presentation.navigation.SearchScreen
 import com.example.githubsearchapp.presentation.searchScreen.SearchScreen
 import com.example.githubsearchapp.ui.theme.GitHubSearchAppTheme
 import kotlinx.coroutines.flow.launchIn
@@ -30,8 +34,27 @@ class MainActivity : ComponentActivity() {
         setContent {
             GitHubSearchAppTheme {
                 KoinAndroidContext {
+
+
                     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                        SearchScreen(modifier = Modifier.padding(innerPadding))
+
+                        val navController = rememberNavController()
+
+                        NavHost(
+                            navController = navController,
+                            startDestination = SearchScreen,
+                            modifier = Modifier.padding(innerPadding)
+                        ) {
+                            composable<SearchScreen> {
+                                SearchScreen(
+                                    modifier = Modifier.padding(
+                                        innerPadding
+                                    )
+                                )
+                            }
+                        }
+
+
                     }
                 }
             }
