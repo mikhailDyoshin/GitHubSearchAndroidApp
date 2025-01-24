@@ -62,6 +62,7 @@ class SearchRepositoryImpl(private val api: ApiService) : SearchRepository {
     override fun getRepositoryContents(requestData: RepositoryContentRequest): Flow<Resource<List<RepositoryContent>>> =
         flow {
             try {
+                emit(Resource.loading())
 
                 val response = api.getRepositoryContents(
                     owner = requestData.owner,
