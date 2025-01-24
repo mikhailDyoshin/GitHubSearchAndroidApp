@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.githubsearchapp.presentation.common.previewData.repositoryItem
 import com.example.githubsearchapp.presentation.navigation.RepositoryScreenNavArg
 import com.example.githubsearchapp.presentation.searchScreen.state.SearchListItemState
 
@@ -92,12 +93,7 @@ fun RepositoryItem(
 fun RepositoryItemPreview() {
     Column(modifier = Modifier.background(color = Color.White)) {
         RepositoryItem(
-            state = SearchListItemState.RepositoryState(
-                name = "Rust-Tutorial and another part of a very long title",
-                description = "Repository to study Rust programming language",
-                numberOfForks = 105689,
-                owner = "John"
-            ),
+            state = repositoryItem,
             navigateToRepositoryContent = {}
         )
     }

@@ -11,7 +11,7 @@ data class RepositoryModel(
     val watchers: Int?,
     val forks: Int?,
     @Json(name = "stargazers_count")
-    val start: Int?,
+    val stars: Int?,
     @Json(name = "created_at")
     val created: String?,
     @Json(name = "updated_at")

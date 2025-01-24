@@ -5,7 +5,12 @@ sealed class SearchResult {
         val name: String?,
         val description: String?,
         val numberOfForks: Int?,
-        val owner: User?
+        val owner: User?,
+        val watchers: Int?,
+        val forks: Int?,
+        val stars: Int?,
+        val created: String?,
+        val updated: String?
     )
 
     data class User(

@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.githubsearchapp.common.Resource
 import com.example.githubsearchapp.presentation.common.ErrorScreen
 import com.example.githubsearchapp.presentation.common.LoadingIndicator
+import com.example.githubsearchapp.presentation.common.previewData.repositoryItem
 import com.example.githubsearchapp.presentation.navigation.RepositoryScreenNavArg
 import com.example.githubsearchapp.presentation.searchScreen.state.SearchListItemState
 import com.example.githubsearchapp.presentation.searchScreen.state.SearchScreenListState
@@ -100,12 +101,7 @@ fun SearchScreenLisSuccessPreview() {
                         avatarURL = "",
                         htmlURL = ""
                     ),
-                    SearchListItemState.RepositoryState(
-                        name = "Tetris",
-                        description = "Tetris game (my favorite)",
-                        numberOfForks = 13,
-                        owner = "John"
-                    ),
+                    repositoryItem,
                     SearchListItemState.UserState(
                         name = "Duck",
                         avatarURL = "",

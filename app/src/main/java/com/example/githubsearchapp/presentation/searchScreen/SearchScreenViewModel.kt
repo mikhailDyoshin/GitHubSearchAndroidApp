@@ -77,7 +77,12 @@ class SearchScreenViewModel(private val repository: SearchRepositoryImpl) : View
                         name = item.name ?: "No name",
                         description = item.description ?: "No description",
                         numberOfForks = item.numberOfForks ?: 0,
-                        owner = item.owner?.login
+                        owner = item.owner?.login,
+                        watchers = item.watchers ?: 0,
+                        forks = item.forks ?: 0,
+                        stars = item.stars ?: 0,
+                        created = item.created ?: "",
+                        updated = item.updated ?: ""
                     )
                 }
 

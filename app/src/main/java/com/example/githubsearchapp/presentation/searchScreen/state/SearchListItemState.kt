@@ -11,7 +11,12 @@ sealed class SearchListItemState {
         val name: String,
         val description: String,
         val numberOfForks: Int,
-        val owner: String?
+        val owner: String?,
+        val watchers: Int,
+        val forks: Int,
+        val stars: Int,
+        val created: String,
+        val updated: String
     ) : SearchListItemState()
 
 }

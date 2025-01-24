@@ -105,7 +105,12 @@ class SearchRepositoryImpl(private val api: ApiService) : SearchRepository {
             name = repository.name,
             description = repository.description,
             numberOfForks = repository.numberOfForks,
-            owner = repository.owner?.let { userModelToUser(it) }
+            owner = repository.owner?.let { userModelToUser(it) },
+            watchers = repository.watchers,
+            forks = repository.forks,
+            stars = repository.stars,
+            created = repository.created,
+            updated = repository.updated
         )
     }
 
