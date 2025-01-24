@@ -9,21 +9,19 @@ import androidx.lifecycle.viewModelScope
 import com.example.githubsearchapp.R
 import com.example.githubsearchapp.common.Resource
 import com.example.githubsearchapp.common.SearchResult
+import com.example.githubsearchapp.common.utils.resolveResource
 import com.example.githubsearchapp.data.SearchRepositoryImpl
 import com.example.githubsearchapp.domain.usecase.ParseDateTimeUseCase
 import com.example.githubsearchapp.presentation.searchScreen.state.DescriptionState
 import com.example.githubsearchapp.presentation.searchScreen.state.SearchListItemState
 import com.example.githubsearchapp.presentation.searchScreen.state.SearchScreenListState
 import com.example.githubsearchapp.presentation.searchScreen.state.StatisticState
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.flattenConcat
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 class SearchScreenViewModel(private val repository: SearchRepositoryImpl) : ViewModel() {
@@ -33,41 +31,33 @@ class SearchScreenViewModel(private val repository: SearchRepositoryImpl) : View
     private val _searchInputState = mutableStateOf("")
     val searchInputState: State<String> = _searchInputState
 
-    private val _submittedSearchInput: MutableSharedFlow<String?> = MutableSharedFlow(replay = 1)
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val state = _submittedSearchInput.map { input ->
-        getMappedFlow(input)
-    }.flattenConcat().stateIn(
-        viewModelScope, SharingStarted.WhileSubscribed(), SearchScreenListState(
+    private val _listState: MutableStateFlow<SearchScreenListState> = MutableStateFlow(
+        SearchScreenListState(
             list = emptyList(),
             status = Resource.Status.SUCCESS,
             message = ""
         )
     )
+    val listState: StateFlow<SearchScreenListState> = _listState
 
     fun search() {
-        viewModelScope.launch {
-            _submittedSearchInput.emit(_searchInputState.value)
-        }
+        getMappedFlow(_searchInputState.value)
     }
 
     fun updateSearchInput(searchInput: String) {
         _searchInputState.value = searchInput
     }
 
-    private fun getMappedFlow(searchInput: String?): Flow<SearchScreenListState> {
+    private fun getMappedFlow(searchInput: String?) {
         val flow = if (searchInput != null) {
             repository.getUsersAndRepositories(searchInput)
         } else {
             emptyFlow()
         }
 
-        val mappedFlow = flow.map { resource ->
-            mapToState(resource)
-        }
+        flow.onEach { updateState(it) }.launchIn(viewModelScope)
 
-        return mappedFlow
     }
 
 
@@ -128,27 +118,28 @@ class SearchScreenViewModel(private val repository: SearchRepositoryImpl) : View
 
     }
 
-    private fun mapToState(resource: Resource<List<Any>>): SearchScreenListState {
-        return when (resource.status) {
-            Resource.Status.SUCCESS -> {
-                mapToSuccessState(resource)
-            }
-
-            Resource.Status.ERROR -> {
-                SearchScreenListState(
+    private fun updateState(resource: Resource<List<Any>>) {
+        resolveResource(
+            resource = resource,
+            onSuccess = {
+                val listState = mapToSuccessState(it)
+                _listState.value = listState
+            },
+            onError = {
+                val listState = SearchScreenListState(
                     list = emptyList(),
                     status = Resource.Status.ERROR,
                     message = resource.error?.message ?: ""
                 )
-            }
-
-            Resource.Status.LOADING -> {
-                SearchScreenListState(
+                _listState.value = listState
+            },
+            onLoading = {
+                val listState = SearchScreenListState(
                     list = emptyList(),
                     status = Resource.Status.LOADING
                 )
+                _listState.value = listState
             }
-        }
+        )
     }
-
 }

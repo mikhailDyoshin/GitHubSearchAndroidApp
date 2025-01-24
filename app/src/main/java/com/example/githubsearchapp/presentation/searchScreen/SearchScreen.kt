@@ -1,5 +1,7 @@
 package com.example.githubsearchapp.presentation.searchScreen
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,6 +20,7 @@ import com.example.githubsearchapp.presentation.searchScreen.components.SearchSc
 import com.example.githubsearchapp.presentation.searchScreen.state.SearchScreenListState
 import org.koin.androidx.compose.koinViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SearchScreen(
     navigateToRepositoryContent: (RepositoryScreenNavArg) -> Unit,
@@ -27,7 +30,7 @@ fun SearchScreen(
 
     val lifecycle = LocalLifecycleOwner.current.lifecycle
 
-    val state = viewModel.state.collectAsStateWithLifecycle(
+    val state = viewModel.listState.collectAsStateWithLifecycle(
         initialValue = SearchScreenListState(
             list = emptyList(),
             status = Resource.Status.SUCCESS,
