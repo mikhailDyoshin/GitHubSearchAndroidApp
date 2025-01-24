@@ -1,5 +1,6 @@
 package com.example.githubsearchapp.presentation.searchScreen.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
@@ -70,8 +71,10 @@ fun RepositoryItem(
                     RepositoryItemTitle(state.name)
                     RepositoryItemStatistics(state.statistics)
                 }
-                OpenDescriptionButton(openDescription = { showDescription.value = !showDescription.value })
-                androidx.compose.animation.AnimatedVisibility(
+                OpenDescriptionButton(
+                    showDescription = showDescription.value,
+                    openDescription = { showDescription.value = !showDescription.value })
+                AnimatedVisibility(
                     visible = showDescription.value,
                     enter = expandVertically(
                         animationSpec = tween(durationMillis = 500),
