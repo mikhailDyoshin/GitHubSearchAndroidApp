@@ -4,11 +4,14 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.githubsearchapp.R
 import com.example.githubsearchapp.common.Resource
 import com.example.githubsearchapp.common.SearchResult
 import com.example.githubsearchapp.data.SearchRepositoryImpl
+import com.example.githubsearchapp.presentation.searchScreen.state.DescriptionState
 import com.example.githubsearchapp.presentation.searchScreen.state.SearchListItemState
 import com.example.githubsearchapp.presentation.searchScreen.state.SearchScreenListState
+import com.example.githubsearchapp.presentation.searchScreen.state.StatisticState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -75,14 +78,28 @@ class SearchScreenViewModel(private val repository: SearchRepositoryImpl) : View
                 is SearchResult.Repository -> {
                     SearchListItemState.RepositoryState(
                         name = item.name ?: "No name",
-                        description = item.description ?: "No description",
-                        numberOfForks = item.numberOfForks ?: 0,
+                        description = DescriptionState(
+                            author = SearchListItemState.UserState(
+                                name = item.owner?.login ?: "No name",
+                                avatarURL = item.owner?.avatarURL ?: "",
+                                htmlURL = item.owner?.htmlURL
+                            ),
+                            created = item.created ?: "",
+                            updated = item.updated ?: "",
+                            description = item.description ?: ""
+                        ),
                         owner = item.owner?.login,
-                        watchers = item.watchers ?: 0,
-                        forks = item.forks ?: 0,
-                        stars = item.stars ?: 0,
-                        created = item.created ?: "",
-                        updated = item.updated ?: ""
+                        statistics = listOf(
+                            StatisticState(
+                                iconId = R.drawable.star_icon,
+                                value = item.stars ?: 0
+                            ),
+                            StatisticState(
+                                iconId = R.drawable.eye_icon,
+                                value = item.watchers ?: 0
+                            ),
+                            StatisticState(iconId = R.drawable.fork_icon, value = item.forks ?: 0)
+                        ),
                     )
                 }
 

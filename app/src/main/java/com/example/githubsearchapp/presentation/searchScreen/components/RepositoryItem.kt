@@ -1,5 +1,8 @@
 package com.example.githubsearchapp.presentation.searchScreen.components
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -8,16 +11,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.githubsearchapp.presentation.common.previewData.repositoryItem
 import com.example.githubsearchapp.presentation.navigation.RepositoryScreenNavArg
 import com.example.githubsearchapp.presentation.searchScreen.state.SearchListItemState
@@ -27,6 +30,10 @@ fun RepositoryItem(
     state: SearchListItemState.RepositoryState,
     navigateToRepositoryContent: (RepositoryScreenNavArg) -> Unit,
 ) {
+
+    val showDescription: MutableState<Boolean> = rememberSaveable {
+        mutableStateOf(false)
+    }
 
     val cornerSize = 5.dp
 
@@ -51,9 +58,8 @@ fun RepositoryItem(
                     .fillMaxWidth()
                     .padding(horizontal = 10.dp, vertical = 10.dp),
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.Start
             ) {
-
                 Row(
                     Modifier
                         .fillMaxWidth()
@@ -61,26 +67,23 @@ fun RepositoryItem(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = state.name,
-                        fontSize = 20.sp,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.fillMaxWidth(0.6f)
-                    )
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(text = state.numberOfForks.toString(), fontSize = 16.sp, maxLines = 1)
-                        Text(text = "Forks", fontSize = 16.sp)
-                    }
+                    RepositoryItemTitle(state.name)
+                    RepositoryItemStatistics(state.statistics)
                 }
-                Text(
-                    text = state.description,
-                    modifier = Modifier.fillMaxWidth(),
-                    color = Color.Gray,
-                    fontSize = 20.sp
-                )
-
-
+                OpenDescriptionButton(openDescription = { showDescription.value = !showDescription.value })
+                androidx.compose.animation.AnimatedVisibility(
+                    visible = showDescription.value,
+                    enter = expandVertically(
+                        animationSpec = tween(durationMillis = 500),
+                        expandFrom = Alignment.Bottom
+                    ),
+                    exit = shrinkVertically(
+                        animationSpec = tween(durationMillis = 500),
+                        shrinkTowards = Alignment.Bottom
+                    )
+                ) {
+                    RepositoryItemDescription(state = state.description)
+                }
             }
         }
     }
