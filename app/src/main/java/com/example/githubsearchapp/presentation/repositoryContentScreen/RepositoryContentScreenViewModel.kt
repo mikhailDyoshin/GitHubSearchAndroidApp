@@ -3,42 +3,37 @@ package com.example.githubsearchapp.presentation.repositoryContentScreen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.githubsearchapp.common.Resource
+import com.example.githubsearchapp.common.utils.resolveResource
 import com.example.githubsearchapp.data.SearchRepositoryImpl
 import com.example.githubsearchapp.domain.models.RepositoryContent
 import com.example.githubsearchapp.domain.models.RepositoryContentRequest
 import com.example.githubsearchapp.presentation.navigation.RepositoryScreenNavArg
 import com.example.githubsearchapp.presentation.repositoryContentScreen.state.RepositoryContentItemState
 import com.example.githubsearchapp.presentation.repositoryContentScreen.state.RepositoryContentState
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.flattenConcat
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class RepositoryContentScreenViewModel(private val repository: SearchRepositoryImpl) : ViewModel() {
 
-    private val _requestDataState: MutableSharedFlow<RepositoryScreenNavArg> = MutableSharedFlow(replay = 1)
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val state = _requestDataState.map { requestData ->
-        getMappedFlow(requestData)
-    }.flattenConcat().stateIn(
-        viewModelScope, SharingStarted.WhileSubscribed(), RepositoryContentState(
+    private val _state: MutableStateFlow<RepositoryContentState> = MutableStateFlow(
+        RepositoryContentState(
             repositoryContent = emptyList(),
             status = Resource.Status.SUCCESS
         )
     )
+    val state: StateFlow<RepositoryContentState> = _state
 
     fun getContent(requestData: RepositoryScreenNavArg) {
         viewModelScope.launch {
-            _requestDataState.emit(requestData)
+            getMappedFlow(requestData)
         }
     }
 
-    private fun getMappedFlow(requestDataState: RepositoryScreenNavArg): Flow<RepositoryContentState> {
+    private fun getMappedFlow(requestDataState: RepositoryScreenNavArg) {
 
        val flow = repository.getRepositoryContents(
            requestData = RepositoryContentRequest(
@@ -49,11 +44,8 @@ class RepositoryContentScreenViewModel(private val repository: SearchRepositoryI
        )
 
 
-        val mappedFlow = flow.map { resource ->
-            mapToState(resource)
-        }
+        flow.onEach {  updateState(it) }.launchIn(viewModelScope)
 
-        return mappedFlow
     }
 
     private fun mapToSuccessState(resource: Resource<List<RepositoryContent>>): RepositoryContentState {
@@ -75,25 +67,29 @@ class RepositoryContentScreenViewModel(private val repository: SearchRepositoryI
         )
     }
 
-    private fun mapToState(resource: Resource<List<RepositoryContent>>): RepositoryContentState {
-        return when (resource.status) {
-            Resource.Status.SUCCESS -> mapToSuccessState(resource)
-
-            Resource.Status.ERROR -> {
-                RepositoryContentState(
+    private fun updateState(resource: Resource<List<RepositoryContent>>) {
+        resolveResource(
+            resource = resource,
+            onSuccess = {
+                val listState = mapToSuccessState(it)
+                _state.value = listState
+            },
+            onError = {
+                val listState = RepositoryContentState(
                     repositoryContent = emptyList(),
                     status = Resource.Status.ERROR,
                     message = resource.error?.message ?: ""
                 )
-            }
-
-            Resource.Status.LOADING -> {
-                RepositoryContentState(
+                _state.value = listState
+            },
+            onLoading = {
+                val listState = RepositoryContentState(
                     repositoryContent = emptyList(),
                     status = Resource.Status.LOADING
                 )
+                _state.value = listState
             }
-        }
+        )
     }
 
 }
