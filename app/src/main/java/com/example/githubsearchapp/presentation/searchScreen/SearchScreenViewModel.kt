@@ -1,5 +1,7 @@
 package com.example.githubsearchapp.presentation.searchScreen
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -8,6 +10,7 @@ import com.example.githubsearchapp.R
 import com.example.githubsearchapp.common.Resource
 import com.example.githubsearchapp.common.SearchResult
 import com.example.githubsearchapp.data.SearchRepositoryImpl
+import com.example.githubsearchapp.domain.usecase.ParseDateTimeUseCase
 import com.example.githubsearchapp.presentation.searchScreen.state.DescriptionState
 import com.example.githubsearchapp.presentation.searchScreen.state.SearchListItemState
 import com.example.githubsearchapp.presentation.searchScreen.state.SearchScreenListState
@@ -22,7 +25,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
+@RequiresApi(Build.VERSION_CODES.O)
 class SearchScreenViewModel(private val repository: SearchRepositoryImpl) : ViewModel() {
+
+    private val parseDateTimeUseCase = ParseDateTimeUseCase()
 
     private val _searchInputState = mutableStateOf("")
     val searchInputState: State<String> = _searchInputState
@@ -64,6 +70,7 @@ class SearchScreenViewModel(private val repository: SearchRepositoryImpl) : View
         return mappedFlow
     }
 
+
     private fun mapToSuccessState(resource: Resource<List<Any>>): SearchScreenListState {
 
         if (resource.data == null) return SearchScreenListState(
@@ -84,8 +91,8 @@ class SearchScreenViewModel(private val repository: SearchRepositoryImpl) : View
                                 avatarURL = item.owner?.avatarURL ?: "",
                                 htmlURL = item.owner?.htmlURL
                             ),
-                            created = item.created ?: "",
-                            updated = item.updated ?: "",
+                            created = parseDateTimeUseCase(item.created).toString(),
+                            updated = parseDateTimeUseCase(item.updated).toString(),
                             description = item.description ?: ""
                         ),
                         owner = item.owner?.login,
