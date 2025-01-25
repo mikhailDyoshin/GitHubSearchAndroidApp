@@ -11,8 +11,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.githubsearchapp.common.Constants.START_SCREEN_STATUS_MESSAGE
 import com.example.githubsearchapp.common.Resource
 import com.example.githubsearchapp.presentation.common.ErrorScreen
+import com.example.githubsearchapp.presentation.common.NoContentScreen
 import com.example.githubsearchapp.presentation.common.previewData.repositoryItem
 import com.example.githubsearchapp.presentation.navigation.RepositoryScreenNavArg
 import com.example.githubsearchapp.presentation.searchScreen.state.SearchListItemState
@@ -32,21 +34,10 @@ fun SearchScreenList(
     ) {
         when (state.status) {
             Resource.Status.SUCCESS -> {
-                LazyColumn {
-                    items(state.list) { itemState ->
-                        when (itemState) {
-                            is SearchListItemState.RepositoryState -> RepositoryItem(
-                                state = itemState,
-                                navigateToRepositoryContent = { navigateToRepositoryContent(it) }
-                            )
-
-                            is SearchListItemState.UserState -> UserItem(itemState)
-                            null -> {
-                                // Do nothing
-                            }
-                        }
-                    }
-                }
+                SuccessSearchScreenList(
+                    state = state,
+                    navigateToRepositoryContent = { navigateToRepositoryContent(it) }
+                )
             }
 
             Resource.Status.ERROR -> {
@@ -59,6 +50,34 @@ fun SearchScreenList(
         }
     }
 
+}
+
+@Composable
+fun SuccessSearchScreenList(
+    state: SearchScreenListState,
+    navigateToRepositoryContent: (RepositoryScreenNavArg) -> Unit,
+) {
+    if (state.list.isEmpty() && state.message != START_SCREEN_STATUS_MESSAGE) {
+        NoContentScreen()
+    } else if (state.message == START_SCREEN_STATUS_MESSAGE) {
+        StartScreen()
+    } else {
+        LazyColumn {
+            items(state.list) { itemState ->
+                when (itemState) {
+                    is SearchListItemState.RepositoryState -> RepositoryItem(
+                        state = itemState,
+                        navigateToRepositoryContent = { navigateToRepositoryContent(it) }
+                    )
+
+                    is SearchListItemState.UserState -> UserItem(itemState)
+                    null -> {
+                        // Do nothing
+                    }
+                }
+            }
+        }
+    }
 }
 
 @Preview

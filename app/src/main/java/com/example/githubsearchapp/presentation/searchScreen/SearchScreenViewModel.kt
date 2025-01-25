@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.githubsearchapp.R
+import com.example.githubsearchapp.common.Constants.START_SCREEN_STATUS_MESSAGE
 import com.example.githubsearchapp.common.Resource
 import com.example.githubsearchapp.common.SearchResult
 import com.example.githubsearchapp.common.utils.resolveResource
@@ -36,7 +37,7 @@ class SearchScreenViewModel(private val repository: SearchRepositoryImpl) : View
         SearchScreenListState(
             list = emptyList(),
             status = Resource.Status.SUCCESS,
-            message = ""
+            message = START_SCREEN_STATUS_MESSAGE
         )
     )
     val listState: StateFlow<SearchScreenListState> = _listState

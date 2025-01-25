@@ -6,8 +6,16 @@
     <string name="error_message_title">Упс...</string>
     <string name="error_message">
         Либо у вас слабое интернет-подключение,
-        \nлибо что-то сломалось у нас - тогда мы в курсе и
-        \nуже работаем над этим
+        либо что-то сломалось у нас - тогда мы в курсе и
+        уже работаем над этим
     </string>
     <string name="retry_button_text">Обновить</string>
+    <string name="no_content_title">Тут ничего нет</string>
+    <string name="no_content_text">Возможно чуть позже здесь что-то появится</string>
+    <string name="start_screen_title">Поиск</string>
+    <string name="start_screen_text">
+        Начните вводить поисковой запрос (от 3-х
+        символов), чтобы увидеть его результаты
+    </string>
+
 </resources>
