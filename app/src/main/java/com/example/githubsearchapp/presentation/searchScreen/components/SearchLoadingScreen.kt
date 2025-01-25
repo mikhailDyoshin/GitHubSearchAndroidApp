@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.example.githubsearchapp.presentation.common.ShimmerEffect
+import com.example.githubsearchapp.presentation.common.utils.setColorByTheme
 import com.example.githubsearchapp.ui.theme.GitHubSearchAppTheme
 
 @Composable
@@ -40,7 +41,8 @@ fun SearchLoadingScreen() {
                 Modifier
                     .background(color = Color.Transparent)
                     .zIndex(1f)
-                    .align(Alignment.TopCenter)) {
+                    .align(Alignment.TopCenter)
+            ) {
                 repeat(6) {
                     Column(
                         modifier = Modifier
@@ -48,7 +50,12 @@ fun SearchLoadingScreen() {
                             .fillMaxWidth()
                             .height(120.dp)
                             .padding(horizontal = 10.dp, vertical = 10.dp)
-                            .background(Color.LightGray, RoundedCornerShape(5.dp))
+                            .background(
+                                setColorByTheme(
+                                    lightThemeColor = Color.LightGray,
+                                    darkThemeColor = MaterialTheme.colorScheme.tertiary
+                                ), RoundedCornerShape(5.dp)
+                            )
                     ) { }
                 }
             }
