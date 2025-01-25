@@ -2,6 +2,7 @@ package com.example.githubsearchapp.presentation.repositoryContentScreen.compone
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,7 +25,13 @@ import com.example.githubsearchapp.ui.theme.DirIconColor
 import com.example.githubsearchapp.ui.theme.FileIconColor
 
 @Composable
-fun RepositoryContentItem(iconId: Int, name: String, iconColor: Color, onClick: () -> Unit) {
+fun RepositoryContentItem(
+    iconId: Int,
+    name: String,
+    size: String?,
+    iconColor: Color,
+    onClick: () -> Unit
+) {
     Column(
         Modifier
             .background(color = Color.White)
@@ -33,17 +40,25 @@ fun RepositoryContentItem(iconId: Int, name: String, iconColor: Color, onClick: 
             modifier = Modifier
                 .padding(vertical = 5.dp)
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(id = iconId),
-                contentDescription = null,
-                tint = iconColor,
-                modifier = Modifier
-                    .size(30.dp)
-                    .padding(4.dp),
-            )
-            Text(text = name, fontSize = 16.sp, modifier = Modifier.padding(start = 10.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(id = iconId),
+                    contentDescription = null,
+                    tint = iconColor,
+                    modifier = Modifier
+                        .size(30.dp)
+                        .padding(4.dp),
+                )
+                Text(text = name, fontSize = 16.sp, modifier = Modifier.padding(start = 10.dp))
+            }
+            if (size != null) {
+                Text(text = size, modifier = Modifier.padding(end = 10.dp))
+            }
         }
         HorizontalDivider(thickness = 2.dp, color = Color.Gray)
     }
@@ -55,6 +70,7 @@ fun RepositoryContentDirItemPreview() {
     RepositoryContentItem(
         iconId = R.drawable.folder_icon,
         name = ".idea",
+        size = null,
         iconColor = DirIconColor,
         onClick = {})
 }
@@ -65,6 +81,7 @@ fun RepositoryContentFileItemPreview() {
     RepositoryContentItem(
         iconId = R.drawable.file_icon,
         name = ".gitignore",
+        size = "13 MB",
         iconColor = FileIconColor,
         onClick = {})
 }

@@ -120,7 +120,8 @@ class SearchRepositoryImpl(private val api: ApiService) : SearchRepository {
             name = repositoryContentItemModel.name,
             type = getRepositoryContentItemType(repositoryContentItemModel),
             path = repositoryContentItemModel.path,
-            htmlURL = repositoryContentItemModel.htmlURL
+            htmlURL = repositoryContentItemModel.htmlURL,
+            sizeInBytes = repositoryContentItemModel.size
         )
     }
 

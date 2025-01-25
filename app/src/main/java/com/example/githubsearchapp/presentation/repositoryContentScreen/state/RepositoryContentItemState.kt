@@ -6,5 +6,6 @@ data class RepositoryContentItemState(
     val name: String?,
     val type: RepositoryContentType?,
     val path: String?,
-    val htmlURL: String?
+    val htmlURL: String?,
+    val sizeInBytes: String?
 )

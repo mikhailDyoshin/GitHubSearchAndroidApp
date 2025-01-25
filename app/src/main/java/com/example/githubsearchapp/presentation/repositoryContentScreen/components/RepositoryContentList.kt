@@ -1,7 +1,6 @@
 package com.example.githubsearchapp.presentation.repositoryContentScreen.components
 
 
-
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
@@ -29,12 +28,15 @@ fun RepositoryContentList(
                     iconId = R.drawable.file_icon,
                     name = item.name ?: "",
                     iconColor = FileIconColor,
-                    onClick = { onItemClick(item) })
+                    onClick = { onItemClick(item) },
+                    size = item.sizeInBytes
+                )
 
                 RepositoryContentType.DIR -> RepositoryContentItem(
                     iconId = R.drawable.folder_icon,
                     name = item.name ?: "",
                     iconColor = DirIconColor,
+                    size = item.sizeInBytes,
                     onClick = { onItemClick(item) })
 
                 null -> {
@@ -54,35 +56,45 @@ fun RepositoryContentListPreview() {
             name = ".idea",
             type = RepositoryContentType.DIR,
             path = "",
+            sizeInBytes = null,
             htmlURL = ""
         ),
         RepositoryContentItemState(
             name = "abc",
             type = RepositoryContentType.DIR,
             path = "",
+            sizeInBytes = null,
             htmlURL = ""
         ),
         RepositoryContentItemState(
             name = ".gitignore",
             type = RepositoryContentType.FILE,
             path = "",
+            sizeInBytes = "1.0 GB",
             htmlURL = ""
         ),
         RepositoryContentItemState(
             name = "abc",
             type = RepositoryContentType.FILE,
             path = "",
+            sizeInBytes = "13.0 MB",
             htmlURL = ""
-        ),RepositoryContentItemState(
+        ), RepositoryContentItemState(
             name = "bcd",
             type = RepositoryContentType.FILE,
             path = "",
+            sizeInBytes = "7.0 KB",
             htmlURL = ""
         )
 
     )
 
-    RepositoryContentList(state = RepositoryContentState(repositoryContent =content, status = Resource.Status.SUCCESS)) {
+    RepositoryContentList(
+        state = RepositoryContentState(
+            repositoryContent = content,
+            status = Resource.Status.SUCCESS
+        )
+    ) {
 
     }
 }

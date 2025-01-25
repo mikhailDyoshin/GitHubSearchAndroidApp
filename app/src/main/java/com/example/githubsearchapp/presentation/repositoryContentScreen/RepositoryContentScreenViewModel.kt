@@ -7,6 +7,8 @@ import com.example.githubsearchapp.common.utils.resolveResource
 import com.example.githubsearchapp.data.SearchRepositoryImpl
 import com.example.githubsearchapp.domain.models.RepositoryContent
 import com.example.githubsearchapp.domain.models.RepositoryContentRequest
+import com.example.githubsearchapp.domain.models.RepositoryContentType
+import com.example.githubsearchapp.domain.usecase.TransformFileSizeUseCase
 import com.example.githubsearchapp.presentation.navigation.RepositoryScreenNavArg
 import com.example.githubsearchapp.presentation.repositoryContentScreen.state.RepositoryContentItemState
 import com.example.githubsearchapp.presentation.repositoryContentScreen.state.RepositoryContentState
@@ -18,6 +20,7 @@ import kotlinx.coroutines.launch
 
 class RepositoryContentScreenViewModel(private val repository: SearchRepositoryImpl) : ViewModel() {
 
+    val transformFileSizeUseCase = TransformFileSizeUseCase()
 
     private val _state: MutableStateFlow<RepositoryContentState> = MutableStateFlow(
         RepositoryContentState(
@@ -60,7 +63,12 @@ class RepositoryContentScreenViewModel(private val repository: SearchRepositoryI
                     name = item.name,
                     type = item.type,
                     path = item.path,
-                    htmlURL = item.htmlURL
+                    htmlURL = item.htmlURL,
+                    sizeInBytes = when (item.type) {
+                        RepositoryContentType.FILE -> transformFileSizeUseCase(item.sizeInBytes)
+                        RepositoryContentType.DIR -> null
+                        null -> null
+                    }
                 )
             },
             status = Resource.Status.SUCCESS
