@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontVariation.weight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.githubsearchapp.presentation.common.previewData.repositoryItem
@@ -68,8 +69,8 @@ fun RepositoryItem(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    RepositoryItemTitle(state.name, modifier = Modifier.weight(1f))
-                    RepositoryItemStatistics(state.statistics, modifier = Modifier.weight(1f))
+                    RepositoryItemTitle(state.name, modifier = Modifier.weight(0.7f, true))
+                    RepositoryItemStatistics(state.statistics, modifier = Modifier.weight(1f, false))
                 }
                 OpenDescriptionButton(
                     showDescription = showDescription.value,

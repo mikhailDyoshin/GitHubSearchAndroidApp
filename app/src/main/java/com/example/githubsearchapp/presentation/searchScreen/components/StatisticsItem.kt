@@ -2,9 +2,12 @@ package com.example.githubsearchapp.presentation.searchScreen.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -21,12 +24,13 @@ import com.example.githubsearchapp.presentation.searchScreen.state.StatisticStat
 fun StatisticsItem(state: StatisticState) {
     Row(
         modifier = Modifier
+            .width(IntrinsicSize.Max)
             .background(color = Color.White, shape = RoundedCornerShape(5.dp))
             .padding(horizontal = 2.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = state.value.toString(), maxLines = 1)
+        Text(text = state.value.toString(), maxLines = 1, modifier = Modifier.wrapContentWidth())
         Icon(
             imageVector = ImageVector.vectorResource(id = state.iconId),
             contentDescription = null,
