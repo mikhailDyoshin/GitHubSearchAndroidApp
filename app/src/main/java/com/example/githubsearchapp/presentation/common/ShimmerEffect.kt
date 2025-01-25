@@ -8,19 +8,24 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.zIndex
 
 @Composable
 fun ShimmerEffect(
     modifier: Modifier,
     widthOfShadowBrush: Int = 700,
-    angleOfAxisY: Float = 270f,
-    durationMillis: Int = 1000,
+    angleOfAxisY: Float = 200f,
+    durationMillis: Int = 2000,
+    content: @Composable (BoxScope.() -> Unit)
 ) {
 
     val shimmerColors = listOf(
@@ -56,10 +61,11 @@ fun ShimmerEffect(
         modifier = modifier
     ) {
         Spacer(
-            modifier = Modifier
-                .matchParentSize()
+            modifier = Modifier.zIndex(99f).align(Alignment.Center)
+                .fillMaxSize()
                 .background(brush)
         )
+        content()
     }
 
 }

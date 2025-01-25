@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.example.githubsearchapp.presentation.common.ShimmerEffect
 
 @Composable
@@ -22,15 +23,25 @@ fun SearchLoadingScreen() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        repeat(6) {
-            ShimmerEffect(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(120.dp)
-                    .padding(horizontal = 10.dp, vertical = 10.dp)
-                    .background(Color.LightGray, RoundedCornerShape(5.dp)),
-                durationMillis = 1000
-            )
+
+        ShimmerEffect(
+            modifier = Modifier
+                .fillMaxSize(),
+            durationMillis = 1000
+        ) {
+            Column(Modifier.zIndex(1f).align(Alignment.TopCenter)) {
+                repeat(6) {
+                    Column(
+                        modifier = Modifier
+                            .zIndex(1f)
+                            .fillMaxWidth()
+                            .height(120.dp)
+                            .padding(horizontal = 10.dp, vertical = 10.dp)
+                            .background(Color.LightGray, RoundedCornerShape(5.dp))
+                    ) { }
+                }
+            }
         }
+
     }
 }
