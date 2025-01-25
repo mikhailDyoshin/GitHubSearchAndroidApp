@@ -21,7 +21,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.githubsearchapp.common.Resource
 import com.example.githubsearchapp.domain.models.RepositoryContentType
 import com.example.githubsearchapp.presentation.common.ErrorScreen
-import com.example.githubsearchapp.presentation.common.LoadingIndicator
 import com.example.githubsearchapp.presentation.navigation.RepositoryScreenNavArg
 import com.example.githubsearchapp.presentation.repositoryContentScreen.components.RepositoryContentList
 import com.example.githubsearchapp.presentation.repositoryContentScreen.components.RepositoryContentLoadingScreen
@@ -91,7 +90,6 @@ fun RepositoryContentScreen(
                 )
 
                 Resource.Status.ERROR -> ErrorScreen(
-                    errorMessage = state.message,
                     onRetry = {
                         viewModel.getContent(navArg)
                     }

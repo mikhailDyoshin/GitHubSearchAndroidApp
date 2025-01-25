@@ -3,4 +3,11 @@
     <string name="select_browser_window_title">Choose a browser</string>
     <string name="activity_not_found_toast_message">Can not open the URL</string>
     <string name="invalid_url_message">Invalid URL</string>
+    <string name="error_message_title">Упс...</string>
+    <string name="error_message">
+        Либо у вас слабое интернет-подключение,
+        \nлибо что-то сломалось у нас - тогда мы в курсе и
+        \nуже работаем над этим
+    </string>
+    <string name="retry_button_text">Обновить</string>
 </resources>

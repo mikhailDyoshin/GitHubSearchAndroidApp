@@ -13,7 +13,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.githubsearchapp.common.Resource
 import com.example.githubsearchapp.presentation.common.ErrorScreen
-import com.example.githubsearchapp.presentation.common.LoadingIndicator
 import com.example.githubsearchapp.presentation.common.previewData.repositoryItem
 import com.example.githubsearchapp.presentation.navigation.RepositoryScreenNavArg
 import com.example.githubsearchapp.presentation.searchScreen.state.SearchListItemState
@@ -51,7 +50,7 @@ fun SearchScreenList(
             }
 
             Resource.Status.ERROR -> {
-                ErrorScreen(errorMessage = state.message, onRetry = { onRetry() })
+                ErrorScreen(onRetry = { onRetry() })
             }
 
             Resource.Status.LOADING -> {
