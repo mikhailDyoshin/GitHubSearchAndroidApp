@@ -24,6 +24,7 @@ import com.example.githubsearchapp.presentation.common.ErrorScreen
 import com.example.githubsearchapp.presentation.common.LoadingIndicator
 import com.example.githubsearchapp.presentation.navigation.RepositoryScreenNavArg
 import com.example.githubsearchapp.presentation.repositoryContentScreen.components.RepositoryContentList
+import com.example.githubsearchapp.presentation.repositoryContentScreen.components.RepositoryContentLoadingScreen
 import com.example.githubsearchapp.presentation.repositoryContentScreen.state.RepositoryContentItemState
 import com.example.githubsearchapp.presentation.repositoryContentScreen.state.RepositoryContentState
 import com.example.githubsearchapp.ui.theme.RepositoryPathBarBackgroundColor
@@ -96,7 +97,7 @@ fun RepositoryContentScreen(
                     }
                 )
 
-                Resource.Status.LOADING -> LoadingIndicator()
+                Resource.Status.LOADING -> RepositoryContentLoadingScreen()
             }
 
         }
