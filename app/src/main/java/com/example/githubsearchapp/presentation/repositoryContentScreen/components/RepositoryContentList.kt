@@ -1,6 +1,7 @@
 package com.example.githubsearchapp.presentation.repositoryContentScreen.components
 
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
@@ -14,6 +15,7 @@ import com.example.githubsearchapp.presentation.repositoryContentScreen.state.Re
 import com.example.githubsearchapp.ui.theme.DirIconColor
 import com.example.githubsearchapp.ui.theme.FileIconColor
 import androidx.compose.foundation.lazy.items
+import com.example.githubsearchapp.ui.theme.GitHubSearchAppTheme
 
 @Composable
 fun RepositoryContentList(
@@ -47,7 +49,14 @@ fun RepositoryContentList(
     }
 }
 
-@Preview
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    name = "DefaultPreviewDark"
+)
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    name = "DefaultPreviewLight"
+)
 @Composable
 fun RepositoryContentListPreview() {
 
@@ -88,13 +97,15 @@ fun RepositoryContentListPreview() {
         )
 
     )
+    GitHubSearchAppTheme {
 
-    RepositoryContentList(
-        state = RepositoryContentState(
-            repositoryContent = content,
-            status = Resource.Status.SUCCESS
-        )
-    ) {
+        RepositoryContentList(
+            state = RepositoryContentState(
+                repositoryContent = content,
+                status = Resource.Status.SUCCESS
+            )
+        ) {
 
+        }
     }
 }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,7 +27,6 @@ import com.example.githubsearchapp.presentation.repositoryContentScreen.componen
 import com.example.githubsearchapp.presentation.repositoryContentScreen.components.RepositoryContentLoadingScreen
 import com.example.githubsearchapp.presentation.repositoryContentScreen.state.RepositoryContentItemState
 import com.example.githubsearchapp.presentation.repositoryContentScreen.state.RepositoryContentState
-import com.example.githubsearchapp.ui.theme.RepositoryPathBarBackgroundColor
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -55,7 +55,7 @@ fun RepositoryContentScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(color = RepositoryPathBarBackgroundColor)
+                    .background(color = MaterialTheme.colorScheme.primary)
                     .padding(horizontal = 10.dp, vertical = 5.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
@@ -63,7 +63,8 @@ fun RepositoryContentScreen(
                 Text(
                     text = "${navArg.owner}/${navArg.repository}/${navArg.path}",
                     fontSize = 24.sp,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.secondary
                 )
             }
         },
@@ -72,6 +73,7 @@ fun RepositoryContentScreen(
         Column(
             Modifier
                 .fillMaxSize()
+                .background(color = MaterialTheme.colorScheme.primary)
                 .padding(padding),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
