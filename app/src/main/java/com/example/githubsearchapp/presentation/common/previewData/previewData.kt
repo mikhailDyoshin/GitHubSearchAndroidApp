@@ -23,15 +23,15 @@ val repositoryItem = SearchListItemState.RepositoryState(
     statistics = listOf(
         StatisticState(
             iconId = R.drawable.star_icon,
-            value = 100
+            value = 4000
         ),
         StatisticState(
             iconId = R.drawable.eye_icon,
-            value = 12
+            value = 5000
         ),
         StatisticState(
             iconId = R.drawable.fork_icon,
-            value = 3
+            value = 3570
         )
     ),
 )

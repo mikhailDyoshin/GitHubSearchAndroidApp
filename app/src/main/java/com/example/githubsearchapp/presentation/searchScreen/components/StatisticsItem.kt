@@ -1,9 +1,11 @@
 package com.example.githubsearchapp.presentation.searchScreen.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,10 +20,13 @@ import com.example.githubsearchapp.presentation.searchScreen.state.StatisticStat
 @Composable
 fun StatisticsItem(state: StatisticState) {
     Row(
+        modifier = Modifier
+            .background(color = Color.White, shape = RoundedCornerShape(5.dp))
+            .padding(horizontal = 2.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = state.value.toString())
+        Text(text = state.value.toString(), maxLines = 1)
         Icon(
             imageVector = ImageVector.vectorResource(id = state.iconId),
             contentDescription = null,

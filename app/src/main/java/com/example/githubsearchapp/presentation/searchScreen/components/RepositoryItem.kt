@@ -68,8 +68,8 @@ fun RepositoryItem(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    RepositoryItemTitle(state.name)
-                    RepositoryItemStatistics(state.statistics)
+                    RepositoryItemTitle(state.name, modifier = Modifier.weight(1f))
+                    RepositoryItemStatistics(state.statistics, modifier = Modifier.weight(1f))
                 }
                 OpenDescriptionButton(
                     showDescription = showDescription.value,

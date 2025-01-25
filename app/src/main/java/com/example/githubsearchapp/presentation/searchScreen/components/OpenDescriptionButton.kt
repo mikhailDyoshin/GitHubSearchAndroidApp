@@ -1,17 +1,14 @@
 package com.example.githubsearchapp.presentation.searchScreen.components
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,6 +26,7 @@ import com.example.githubsearchapp.R
 @Composable
 fun OpenDescriptionButton(showDescription: Boolean, openDescription: () -> Unit) {
 
+
     val rotationAngle by animateFloatAsState(
         targetValue = if (showDescription) 90f else 0f,
         animationSpec = tween(durationMillis = 500),
@@ -37,13 +35,16 @@ fun OpenDescriptionButton(showDescription: Boolean, openDescription: () -> Unit)
 
     Button(
         onClick = { openDescription() },
-        modifier = Modifier.background(Color.Transparent).padding(bottom = 10.dp),
-        colors = ButtonColors(
+        modifier = Modifier.padding(bottom = 10.dp),
+        colors = ButtonDefaults.buttonColors(
             containerColor = Color.Transparent,
             contentColor = Color.Black,
-            disabledContainerColor = Color.Gray,
-            disabledContentColor = Color.White
-        )
+            disabledContainerColor = Color.Transparent,
+            disabledContentColor = Color.Gray
+        ),
+        shape = RoundedCornerShape(size = 5.dp),
+        elevation = null,
+        contentPadding = PaddingValues(0.dp),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
