@@ -55,7 +55,7 @@ fun SearchScreenList(
             }
 
             Resource.Status.LOADING -> {
-                LoadingIndicator()
+                SearchLoadingScreen()
             }
         }
     }
