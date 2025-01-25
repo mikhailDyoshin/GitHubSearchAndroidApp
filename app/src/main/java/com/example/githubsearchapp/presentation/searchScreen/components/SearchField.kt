@@ -1,5 +1,6 @@
 package com.example.githubsearchapp.presentation.searchScreen.components
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -13,6 +14,7 @@ import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonColors
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -26,7 +28,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.githubsearchapp.R
 import com.example.githubsearchapp.common.Resource
-import com.example.githubsearchapp.ui.theme.SearchBarBackgroundColor
+import com.example.githubsearchapp.presentation.common.utils.setColorByTheme
+import com.example.githubsearchapp.ui.theme.DarkThemeSearchBarBackgroundColor
+import com.example.githubsearchapp.ui.theme.DarkThemeSearchBarLabelColor
+import com.example.githubsearchapp.ui.theme.GitHubSearchAppTheme
+import com.example.githubsearchapp.ui.theme.LightThemeSearchBarBackgroundColor
+import com.example.githubsearchapp.ui.theme.LightThemeSearchBarLabelColor
 import com.example.githubsearchapp.ui.theme.SearchButtonDisabledColor
 import com.example.githubsearchapp.ui.theme.SearchButtonEnabledColor
 
@@ -38,7 +45,15 @@ fun SearchField(
     search: () -> Unit
 ) {
 
-    val backgroundColor = SearchBarBackgroundColor
+    val backgroundColor = setColorByTheme(
+        lightThemeColor = LightThemeSearchBarBackgroundColor,
+        darkThemeColor = DarkThemeSearchBarBackgroundColor
+    )
+
+    val labelColor = setColorByTheme(
+        lightThemeColor = LightThemeSearchBarLabelColor,
+        darkThemeColor = DarkThemeSearchBarLabelColor
+    )
 
     val searchBarEnabled = when (status) {
         Resource.Status.SUCCESS -> true
@@ -48,12 +63,12 @@ fun SearchField(
 
     val buttonEnabled = searchBarEnabled && text.length >= 3
 
-    val buttonColor = if (buttonEnabled) SearchButtonEnabledColor else SearchButtonDisabledColor
+    val buttonColor = if (buttonEnabled) MaterialTheme.colorScheme.secondary else SearchButtonDisabledColor
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 10.dp)
+            .padding(vertical = 10.dp)
             .background(color = backgroundColor, shape = RoundedCornerShape(16.dp)),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
@@ -69,15 +84,17 @@ fun SearchField(
                 .fillMaxWidth(fraction = 0.84f),
             colors = TextFieldDefaults.colors(
                 unfocusedTextColor = Color.Gray,
-                focusedTextColor = Color.Black,
+                focusedTextColor = MaterialTheme.colorScheme.secondary,
                 focusedContainerColor = backgroundColor,
                 unfocusedContainerColor = backgroundColor,
                 disabledContainerColor = backgroundColor,
                 disabledIndicatorColor = Color.Transparent,
-                cursorColor = Color.Black,
+                cursorColor = MaterialTheme.colorScheme.secondary,
                 selectionColors = LocalTextSelectionColors.current,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
+                focusedLabelColor = labelColor,
+                unfocusedLabelColor = labelColor
             ),
             shape = RoundedCornerShape(16.dp),
             singleLine = true,
@@ -114,18 +131,38 @@ fun SearchField(
     }
 }
 
-@Preview
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    name = "DefaultPreviewDark"
+)
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    name = "DefaultPreviewLight"
+)
 @Composable
 fun SearchFieldPreview() {
-    SearchField(text = "Hello", status = Resource.Status.SUCCESS, updateSearchInput = {}) {
+    GitHubSearchAppTheme {
+        SearchField(text = "Hello", status = Resource.Status.SUCCESS, updateSearchInput = {}) {
 
+        }
     }
+
 }
 
-@Preview
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    name = "DefaultPreviewDark"
+)
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    name = "DefaultPreviewLight"
+)
 @Composable
 fun SearchFieldDisabledPreview() {
-    SearchField(text = "Hello", status = Resource.Status.LOADING, updateSearchInput = {}) {
+    GitHubSearchAppTheme {
+        SearchField(text = "Hello", status = Resource.Status.LOADING, updateSearchInput = {}) {
 
+        }
     }
+
 }

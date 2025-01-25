@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import com.example.githubsearchapp.presentation.common.ShadowWrapper
+import com.example.githubsearchapp.presentation.common.utils.setShadowElevationByTheme
 import com.example.githubsearchapp.presentation.searchScreen.state.StatisticState
 
 @Composable
@@ -25,7 +26,7 @@ fun RepositoryItemStatistics(statistics: List<StatisticState>, modifier: Modifie
             ShadowWrapper(
                 wrapperModifier = Modifier.padding(bottom = 10.dp, start = 4.dp).wrapContentSize(),
                 shadowModifier = Modifier.shadow(
-                    4.dp,
+                    setShadowElevationByTheme(4.dp),
                     shape = RoundedCornerShape(5.dp),
                     clip = false
                 ),

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,12 +30,12 @@ fun ShimmerEffect(
 ) {
 
     val shimmerColors = listOf(
-        Color.White.copy(alpha = 0.3f),
+        Color.White.copy(alpha = 0.0f),
         Color.White.copy(alpha = 0.5f),
         Color.White.copy(alpha = 1.0f),
         Color.White.copy(alpha = 0.5f),
-        Color.White.copy(alpha = 0.3f),
-    )
+        Color.White.copy(alpha = 0.0f),
+        )
 
     val transition = rememberInfiniteTransition(label = "")
 
@@ -58,14 +59,15 @@ fun ShimmerEffect(
     )
 
     Box(
-        modifier = modifier
+        modifier = modifier.background(color = MaterialTheme.colorScheme.primary)
     ) {
+        content()
         Spacer(
             modifier = Modifier.zIndex(99f).align(Alignment.Center)
                 .fillMaxSize()
                 .background(brush)
         )
-        content()
+
     }
 
 }

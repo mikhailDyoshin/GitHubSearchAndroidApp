@@ -2,9 +2,11 @@ package com.example.githubsearchapp.presentation.searchScreen
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -38,6 +40,7 @@ fun SearchScreen(
 
     Column(
         modifier = modifier
+            .background(color = MaterialTheme.colorScheme.primary)
             .fillMaxSize()
             .padding(start = 10.dp, top = 5.dp, end = 10.dp)
     ) {

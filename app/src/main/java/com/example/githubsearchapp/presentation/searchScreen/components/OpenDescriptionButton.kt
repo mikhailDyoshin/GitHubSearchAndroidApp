@@ -1,5 +1,6 @@
 package com.example.githubsearchapp.presentation.searchScreen.components
 
+import android.content.res.Configuration
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.PaddingValues
@@ -10,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,6 +24,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.githubsearchapp.R
+import com.example.githubsearchapp.ui.theme.GitHubSearchAppTheme
 
 @Composable
 fun OpenDescriptionButton(showDescription: Boolean, openDescription: () -> Unit) {
@@ -49,11 +52,11 @@ fun OpenDescriptionButton(showDescription: Boolean, openDescription: () -> Unit)
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "Подробнее")
+            Text(text = "Подробнее", color = MaterialTheme.colorScheme.secondary)
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.arrow_right_icon),
                 contentDescription = null,
-                tint = Color.Black,
+                tint = MaterialTheme.colorScheme.secondary,
                 modifier = Modifier
                     .size(30.dp)
                     .padding(4.dp)
@@ -64,14 +67,32 @@ fun OpenDescriptionButton(showDescription: Boolean, openDescription: () -> Unit)
     }
 }
 
-@Preview
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    name = "DefaultPreviewDark"
+)
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    name = "DefaultPreviewLight"
+)
 @Composable
 fun OpenDescriptionButtonPreview() {
-    OpenDescriptionButton(showDescription = false) {  }
+    GitHubSearchAppTheme {
+        OpenDescriptionButton(showDescription = false) {  }
+    }
 }
 
-@Preview
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    name = "DefaultPreviewDark"
+)
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    name = "DefaultPreviewLight"
+)
 @Composable
 fun OpenDescriptionButtonDescriptionActivePreview() {
-    OpenDescriptionButton(showDescription = true) {  }
+    GitHubSearchAppTheme {
+        OpenDescriptionButton(showDescription = true) {  }
+    }
 }

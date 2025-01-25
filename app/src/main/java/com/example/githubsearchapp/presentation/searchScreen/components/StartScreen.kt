@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -29,7 +31,7 @@ fun StartScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(ErrorScreenBackgroundColor), // Semi-transparent background
+            .background(Color.Transparent),
         contentAlignment = Alignment.Center
     ) {
 
@@ -47,7 +49,8 @@ fun StartScreen() {
                     .width(200.dp),
                 fontSize = 24.sp,
                 textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.secondary
             )
             Text(
                 text = context.resources.getString(R.string.start_screen_text),
@@ -56,6 +59,7 @@ fun StartScreen() {
                     .fillMaxWidth(),
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.secondary
             )
         }
 

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -32,7 +33,7 @@ import com.example.githubsearchapp.common.utils.openInBrowser
 import com.example.githubsearchapp.presentation.searchScreen.state.SearchListItemState
 
 @Composable
-fun UserItem(userState: SearchListItemState.UserState) {
+fun UserItem(userState: SearchListItemState.UserState, modifier: Modifier  = Modifier) {
 
     val context = LocalContext.current
 
@@ -44,8 +45,7 @@ fun UserItem(userState: SearchListItemState.UserState) {
                 .shadow(4.dp, shape = RoundedCornerShape(cornerSize), clip = true)
         ) {
             Row(
-                modifier = Modifier
-                    .background(color = Color.White, shape = RoundedCornerShape(cornerSize))
+                modifier = modifier
                     .padding(horizontal = 5.dp)
                     .fillMaxWidth()
                     .clickable {
@@ -79,13 +79,14 @@ fun UserItem(userState: SearchListItemState.UserState) {
                     fontSize = 20.sp,
                     modifier = Modifier.weight(1f),
                     textAlign = TextAlign.Center,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colorScheme.secondary
                 )
 
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.arrow_right_icon),
                     contentDescription = null,
-                    tint = Color.Black,
+                    tint = MaterialTheme.colorScheme.secondary,
                     modifier = Modifier
                         .weight(0.5f)
                         .size(50.dp)

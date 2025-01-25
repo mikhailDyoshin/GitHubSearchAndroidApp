@@ -1,5 +1,6 @@
 package com.example.githubsearchapp.presentation.searchScreen.components
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,6 +13,7 @@ fun RepositoryItemTitle(repositoryName: String, modifier: Modifier = Modifier) {
         text = repositoryName,
         fontWeight = FontWeight.Bold,
         fontSize = 20.sp,
+        color = MaterialTheme.colorScheme.secondary,
         modifier = modifier
     )
 }

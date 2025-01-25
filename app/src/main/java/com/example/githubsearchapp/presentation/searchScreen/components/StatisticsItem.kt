@@ -18,14 +18,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import com.example.githubsearchapp.presentation.common.utils.setColorByTheme
 import com.example.githubsearchapp.presentation.searchScreen.state.StatisticState
+import com.example.githubsearchapp.ui.theme.DarkThemeDetailsBackgroundColor
+import com.example.githubsearchapp.ui.theme.LightThemeDetailsBackgroundColor
 
 @Composable
 fun StatisticsItem(state: StatisticState) {
+
+    val backgroundColor = setColorByTheme(
+        lightThemeColor = LightThemeDetailsBackgroundColor,
+        darkThemeColor = DarkThemeDetailsBackgroundColor
+    )
+
     Row(
         modifier = Modifier
             .width(IntrinsicSize.Max)
-            .background(color = Color.White, shape = RoundedCornerShape(5.dp))
+            .background(color = backgroundColor, shape = RoundedCornerShape(5.dp))
             .padding(horizontal = 2.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
